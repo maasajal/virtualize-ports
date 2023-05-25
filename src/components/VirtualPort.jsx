@@ -5,6 +5,9 @@ import "./Map.css";
 import ChangeMapType from "./Layers/ChangeMapType";
 import Algorithm from "./algorithm/Algorithm";
 
+import { useJsApiLoader } from "@react-google-maps/api";
+import { mapOptions } from "../components/MapConf";
+
 // Marker with images icon
 import VIP_Parking from "../assets/images/carPark.png";
 import Parking_2 from "../assets/images/carPark.png";
@@ -12,19 +15,16 @@ import Parking_3 from "../assets/images/parking-icon.png";
 import Parking_4 from "../assets/images/parking-icon.png";
 import Parking_5 from "../assets/images/missionmarker.png";
 import CarParkingModal from "./CarParkingModal";
+import ParkingModal from "./ParkingModal";
 
-const VirtualPort = (props) => {
-  const { isLoaded } = props;
+const VirtualPort = ({ data }) => {
+  const { isLoaded } = useJsApiLoader({
+    id: mapOptions.googleMapApiKey,
+    googleMapsApiKey: mapOptions.googleMapApiKey,
+  });
+
   const [selectedMarker, setSelectedMarker] = useState("");
-  const [filteredData, setFilteredData] = useState(props.data);
-  console.log(props.data);
-
-  const openModal = (type) => {
-    const cars = props.data.filter(
-      (car) => car.PRIORITY.toLowerCase() === type.toLowerCase()
-    );
-    setFilteredData(cars);
-  };
+  console.log(data);
 
   const containerStyle = {
     width: "100vw",
@@ -161,6 +161,7 @@ const VirtualPort = (props) => {
             })}
 
             {selectedMarker && (
+              // <ParkingModal data={data} />
               <InfoWindow
                 position={selectedMarker.location}
                 options={{
@@ -171,7 +172,8 @@ const VirtualPort = (props) => {
                 <div>
                   <h1>Optimized: - {selectedMarker.name}</h1>
                   <h1>Prioritized: - {selectedMarker.status}</h1>
-                  <Algorithm data={props.data} />
+                  {/* <Algorithm data={props.data} /> */}
+                  <ParkingModal data={data} /> 
                   <button onClick={() => setSelectedMarker("")}>Close</button>
                 </div>
               </InfoWindow>

@@ -4,19 +4,12 @@ import Papa from "papaparse";
 import TopSection from "./TopSection";
 import CarDetails from "./CarDetails";
 import VirtualPort from "./VirtualPort";
-
-import { useJsApiLoader } from "@react-google-maps/api";
-import { mapOptions } from "../components/MapConf";
 import PortSection from "./PortSection";
 
 // Allowed extensions for input file
 const allowedExtensions = ["csv"];
 
 const Ilams = () => {
-    const { isLoaded } = useJsApiLoader({
-        id: mapOptions.googleMapApiKey,
-        googleMapsApiKey: mapOptions.googleMapApiKey,
-      });
   // This state will store the parsed data
   const [data, setData] = useState([]);
 
@@ -200,8 +193,8 @@ const Ilams = () => {
       />
       <CarDetails data={data} />
       <hr />
-      <PortSection data={data} />
-      <VirtualPort isLoaded={isLoaded} data={data} />
+      {/* <PortSection data={data} /> */}
+      <VirtualPort data={data} />
     </>
   );
 };
